@@ -1,0 +1,7 @@
+#This file generated via template by Chef.
+<% @apache_listen_ports.sort.uniq.each do |port| -%>
+Listen <%= port %>
+<% if( node[:apache][:namevirtualhost] ) then -%>
+NameVirtualHost *:<%= port %>
+<% end -%>
+<% end -%>

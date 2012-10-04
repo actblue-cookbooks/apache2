@@ -1,0 +1,10 @@
+<IfModule mod_mem_cache.c>
+  CacheEnable mem /
+
+  # It's reasonable to always ignore this header
+  CacheIgnoreHeaders Set-Cookie
+
+<% node[:apache][:mem_cache].sort.each do |setting, value| -%>
+  <%= setting %> <%= value %>
+<% end -%>
+</IfModule>

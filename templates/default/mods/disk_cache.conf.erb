@@ -1,0 +1,24 @@
+<IfModule mod_disk_cache.c>
+# cache cleaning is done by htcacheclean, which can be configured in
+# /etc/default/apache2
+#
+# For further information, see the comments in that file, 
+# /usr/share/doc/apache2.2-common/README.Debian, and the htcacheclean(8)
+# man page.
+
+	# This path must be the same as the one in /etc/default/apache2
+        CacheRoot <%= node[:apache][:cache_dir] %>/mod_disk_cache
+
+	# This will also cache local documents. It usually makes more sense to
+	# put this into the configuration for just one virtual host.
+
+	CacheEnable disk /
+
+	# It's reasonable to always ignore this header
+        CacheIgnoreHeaders Set-Cookie
+
+<% ["CacheDirLevels", "CacheDirLength"].sort.each do |setting| -%>
+        <%= setting %> <%= node[:apache][:disk_cache][setting] %>
+<% end-%>
+
+</IfModule>

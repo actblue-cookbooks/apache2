@@ -1,0 +1,63 @@
+#
+# Disable access to the entire file system except for the directories that
+# are explicitly allowed later.
+#
+# This currently breaks the configurations that come with some web application
+# Debian packages. It will be made the default for the release after lenny.
+#
+#<Directory />
+#	AllowOverride None
+#	Order Deny,Allow
+#	Deny from all
+#</Directory>
+
+
+# Changing the following options will not really affect the security of the
+# server, but might make attacks slightly more difficult in some cases.
+
+#
+# ServerTokens
+# This directive configures what you return as the Server HTTP response
+# Header. The default is 'Full' which sends information about the OS-Type
+# and compiled in modules.
+# Set to one of:  Full | OS | Minimal | Minor | Major | Prod
+# where Full conveys the most information, and Prod the least.
+#
+#ServerTokens Minimal
+ServerTokens <%= node[:apache][:servertokens] %> 
+
+#
+# Optionally add a line containing the server version and virtual host
+# name to server-generated pages (internal error documents, FTP directory
+# listings, mod_status and mod_info output etc., but not CGI generated
+# documents or custom error documents).
+# Set to "EMail" to also include a mailto: link to the ServerAdmin.
+# Set to one of:  On | Off | EMail
+#
+#ServerSignature Off
+ServerSignature <%= node[:apache][:serversignature] %> 
+
+#
+# Allow TRACE method
+#
+# See CVE-2004-2320, CVE-2007-3008
+#
+# Set to "extended" to also reflect the request body (only for testing and
+# diagnostic purposes).
+#
+# Set to one of:  On | Off | extended
+#
+#TraceEnable Off
+TraceEnable <%= node[:apache][:traceenable] %> 
+
+#
+# Optionally disable range requests
+#
+# CVE-2011-3192
+# http://mail-archives.apache.org/mod_mbox/httpd-announce/201108.mbox/%3C20110824161640.122D387DD@minotaur.apache.org%3E
+# There is a DoS attack against apache relating to how it handles
+# range request headers. If they're not something your site needs, you
+# can just disable them. This will probably be fixed by Q4 2011
+<% if node[:apache][:block_range_header] -%>
+RequestHeader unset Range
+<% end -%>

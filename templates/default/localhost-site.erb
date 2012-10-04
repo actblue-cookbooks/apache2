@@ -1,0 +1,27 @@
+<VirtualHost 127.0.0.1:79>
+
+  DocumentRoot /var/www/
+  <Directory />
+     Options FollowSymLinks
+     AllowOverride None
+  </Directory>
+  <Directory /var/www/>
+     Options Indexes FollowSymLinks MultiViews
+     AllowOverride None
+     Order allow,deny
+     Allow from 127.0.0.0/255.0.0.0 ::1/128
+  </Directory>
+
+<IfModule mod_info.c>
+  <Location /server-info>
+    SetHandler server-info
+  </Location>
+</IfModule>
+
+<IfModule mod_status.c>
+  <Location /server-status>
+    SetHandler server-status
+  </Location>
+</IfModule>
+
+</VirtualHost>
