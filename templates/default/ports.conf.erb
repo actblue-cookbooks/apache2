@@ -5,3 +5,6 @@ Listen <%= port %>
 NameVirtualHost *:<%= port %>
 <% end -%>
 <% end -%>
+<% node[:apache][:namevirtualhost_ports].sort.uniq.each do |port| -%>
+NameVirtualHost *:<%= port %>
+<% end -%>
